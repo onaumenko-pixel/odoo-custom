@@ -6,15 +6,7 @@ class CrmLead(models.Model):
 
     contact_ids = fields.One2many(
         'res.partner',
-        'lead_id',
-        string='Contact Persons'
-    )
-
-
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
-
-    lead_id = fields.Many2one(
-        'crm.lead',
-        string='Lead'
+        related='partner_id.child_ids',
+        string='Contacts',
+        readonly=True
     )
