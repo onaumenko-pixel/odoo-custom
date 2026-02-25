@@ -16,7 +16,7 @@
                                 type="object"
                                 string="Додати"
                                 class="btn-primary"
-                                attrs="{'invisible': [('partner_id','=', False)]}"/>
+                                invisible="not partner_id"/>
                     </group>
 
                     <field name="contact_ids"
