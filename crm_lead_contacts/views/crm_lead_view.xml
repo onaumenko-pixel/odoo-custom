@@ -1,38 +1,50 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
+<page string="Contacts">
+  <div class="mb-2">
+    <button type="object"
+            name="action_add_company_contact"
+            string="Додати"
+            class="btn btn-primary"/>
+  </div>
 
-    <record id="view_crm_lead_form_inherit_contacts" model="ir.ui.view">
-        <field name="name">crm.lead.form.contacts</field>
-        <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
-        <field name="arch" type="xml">
+  <field name="contact_ids" mode="kanban" options="{'no_create': True}">
+    <kanban>
+      <!-- поля которые используются в шаблоне -->
+      <field name="name"/>
+      <field name="image_128"/>
+      <field name="function"/>
+      <field name="phone"/>
+      <field name="mobile"/>
+      <field name="email"/>
 
-            <xpath expr="//sheet/notebook" position="inside">
-                <page string="Contacts">
-                    <field name="contact_ids" mode="kanban">
-                        <kanban>
-                            <field name="name"/>
-                            <field name="phone"/>
-                            <field name="mobile"/>
-                            <field name="email"/>
-                            <templates>
-                                <t t-name="kanban-box">
-                                    <div class="oe_kanban_card">
-                                        <div>
-                                            <strong><field name="name"/></strong>
-                                        </div>
-                                        <div><field name="phone"/></div>
-                                        <div><field name="mobile"/></div>
-                                        <div><field name="email"/></div>
-                                    </div>
-                                </t>
-                            </templates>
-                        </kanban>
-                    </field>
-                </page>
-            </xpath>
+      <templates>
+        <t t-name="kanban-box">
+          <div class="oe_kanban_card">
+            <div class="o_kanban_record_top">
+              <div class="o_kanban_avatar me-2">
+                <img t-att-src="kanban_image('res.partner','image_128', record.id.raw_value)"
+                     class="o_kanban_avatar"
+                     alt="avatar"/>
+              </div>
 
-        </field>
-    </record>
-
-</odoo>
+              <div class="o_kanban_record_head">
+                <strong><field name="name"/></strong>
+                <div t-if="record.function.raw_value">
+                  <span class="text-muted">Посада: </span><field name="function"/>
+                </div>
+                <div t-if="record.phone.raw_value">
+                  <span class="text-muted">Телефон: </span><field name="phone"/>
+                </div>
+                <div t-if="record.mobile.raw_value">
+                  <span class="text-muted">Мобільний: </span><field name="mobile"/>
+                </div>
+                <div t-if="record.email.raw_value">
+                  <span class="text-muted">Ел. пошта: </span><field name="email"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </t>
+      </templates>
+    </kanban>
+  </field>
+</page>
