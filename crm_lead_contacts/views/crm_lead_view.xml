@@ -11,14 +11,6 @@
 
                 <page string="Contacts">
 
-                    <group>
-                        <button name="action_add_company_contact"
-                                type="object"
-                                string="Додати"
-                                class="btn-primary"
-                                invisible="not partner_id"/>
-                    </group>
-
                     <field name="contact_ids"
                            mode="kanban,form"
                            context="{
@@ -26,10 +18,9 @@
                                'default_company_type': 'person',
                                'default_is_company': False,
                                'default_type': 'contact'
-                           }"
-                           options="{'no_create': True, 'no_delete': True}">
+                           }">
 
-                        <kanban create="false" delete="false">
+                        <kanban>
 
                             <field name="name"/>
                             <field name="function"/>
@@ -53,23 +44,19 @@
                                             </strong>
 
                                             <div t-if="record.function.raw_value">
-                                                <span>Посада: </span>
                                                 <field name="function"/>
                                             </div>
 
+                                            <div t-if="record.email.raw_value">
+                                                <field name="email" widget="email"/>
+                                            </div>
+
                                             <div t-if="record.phone.raw_value">
-                                                <span>Тел: </span>
-                                                <field name="phone"/>
+                                                Phone: <t t-esc="record.phone.value"/>
                                             </div>
 
                                             <div t-if="record.mobile.raw_value">
-                                                <span>Мобільний: </span>
-                                                <field name="mobile"/>
-                                            </div>
-
-                                            <div t-if="record.email.raw_value">
-                                                <span>Email: </span>
-                                                <field name="email"/>
+                                                Mobile: <t t-esc="record.mobile.value"/>
                                             </div>
 
                                         </div>
@@ -79,6 +66,28 @@
                             </templates>
 
                         </kanban>
+
+                        <form string="Contact / Address">
+                            <sheet>
+                                <field name="type" required="1" widget="radio"
+                                       options="{'horizontal': true}"/>
+                                <field name="parent_id" invisible="1"/>
+
+                                <group>
+                                    <group>
+                                        <field name="name" string="Contact Name"
+                                               required="type == 'contact'"/>
+                                        <field name="function"
+                                               invisible="type != 'contact'"/>
+                                    </group>
+                                    <group>
+                                        <field name="email" widget="email"/>
+                                        <field name="phone" widget="phone"/>
+                                        <field name="mobile" widget="phone"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
 
                     </field>
 
