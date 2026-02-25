@@ -6,10 +6,7 @@ class CrmLead(models.Model):
 
     contact_ids = fields.One2many(
         comodel_name="res.partner",
-        inverse_name="lead_id",
+        related="partner_id.child_ids",
         string="Contacts",
-        domain=[
-            ("company_type", "=", "person"),
-            ("type", "=", "contact"),
-        ],
+        readonly=False,
     )
