@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-    <!-- Наследуем стандартную форму лида -->
     <record id="view_crm_lead_form_inherit_contacts" model="ir.ui.view">
         <field name="name">crm.lead.form.inherit.contacts</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
 
-            <!-- Добавляем вкладку в notebook -->
             <xpath expr="//notebook" position="inside">
 
                 <page string="Contacts">
 
-                    <!-- Кнопка добавления контакта -->
                     <group>
                         <button name="action_add_company_contact"
                                 type="object"
@@ -22,9 +19,8 @@
                                 attrs="{'invisible': [('partner_id','=', False)]}"/>
                     </group>
 
-                    <!-- Отображение контактных лиц компании -->
                     <field name="contact_ids"
-                           mode="kanban"
+                           mode="kanban,form"
                            context="{
                                'default_parent_id': partner_id,
                                'default_company_type': 'person',
@@ -33,7 +29,7 @@
                            }"
                            options="{'no_create': True, 'no_delete': True}">
 
-                        <kanban>
+                        <kanban create="false" delete="false">
 
                             <field name="name"/>
                             <field name="function"/>
@@ -75,6 +71,7 @@
                                                 <span>Email: </span>
                                                 <field name="email"/>
                                             </div>
+
                                         </div>
 
                                     </div>
