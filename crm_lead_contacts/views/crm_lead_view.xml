@@ -1,73 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+    <!-- Наследуем стандартную форму лида -->
     <record id="view_crm_lead_form_inherit_contacts" model="ir.ui.view">
-        <field name="name">crm.lead.form.contacts</field>
+        <field name="name">crm.lead.form.inherit.contacts</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
 
-            <xpath expr="//sheet/notebook" position="inside">
+            <!-- Добавляем вкладку в notebook -->
+            <xpath expr="//notebook" position="inside">
 
                 <page string="Contacts">
 
-                    <div class="mb-2">
-                        <button type="object"
-                                name="action_add_company_contact"
+                    <!-- Кнопка добавления контакта -->
+                    <group>
+                        <button name="action_add_company_contact"
+                                type="object"
                                 string="Додати"
-                                class="btn btn-primary"/>
-                    </div>
+                                class="btn-primary"
+                                attrs="{'invisible': [('partner_id','=', False)]}"/>
+                    </group>
 
-                    <field name="contact_ids" mode="kanban" options="{'no_create': True}">
+                    <!-- Отображение контактных лиц компании -->
+                    <field name="contact_ids"
+                           mode="kanban"
+                           context="{
+                               'default_parent_id': partner_id,
+                               'default_company_type': 'person',
+                               'default_is_company': False,
+                               'default_type': 'contact'
+                           }"
+                           options="{'no_create': True, 'no_delete': True}">
+
                         <kanban>
+
                             <field name="name"/>
-                            <field name="image_128"/>
                             <field name="function"/>
                             <field name="phone"/>
                             <field name="mobile"/>
                             <field name="email"/>
+                            <field name="image_128"/>
 
                             <templates>
                                 <t t-name="kanban-box">
-                                    <div class="oe_kanban_card">
-                                        <div class="o_kanban_record_top">
+                                    <div class="oe_kanban_global_click o_kanban_record">
 
-                                            <div class="o_kanban_avatar me-2">
-                                                <img t-att-src="kanban_image('res.partner','image_128', record.id.raw_value)"
-                                                     class="o_kanban_avatar"/>
-                                            </div>
-
-                                            <div>
-                                                <strong><field name="name"/></strong>
-
-                                                <div t-if="record.function.raw_value">
-                                                    <span class="text-muted">Посада: </span>
-                                                    <field name="function"/>
-                                                </div>
-
-                                                <div t-if="record.phone.raw_value">
-                                                    <span class="text-muted">Телефон: </span>
-                                                    <field name="phone"/>
-                                                </div>
-
-                                                <div t-if="record.mobile.raw_value">
-                                                    <span class="text-muted">Мобільний: </span>
-                                                    <field name="mobile"/>
-                                                </div>
-
-                                                <div t-if="record.email.raw_value">
-                                                    <span class="text-muted">Ел. пошта: </span>
-                                                    <field name="email"/>
-                                                </div>
-
-                                            </div>
-
+                                        <div class="o_kanban_image">
+                                            <img t-att-src="kanban_image('res.partner','image_128',record.id.raw_value)"
+                                                 alt="Contact"/>
                                         </div>
+
+                                        <div class="o_kanban_details">
+                                            <strong>
+                                                <field name="name"/>
+                                            </strong>
+
+                                            <div t-if="record.function.raw_value">
+                                                <span>Посада: </span>
+                                                <field name="function"/>
+                                            </div>
+
+                                            <div t-if="record.phone.raw_value">
+                                                <span>Тел: </span>
+                                                <field name="phone"/>
+                                            </div>
+
+                                            <div t-if="record.mobile.raw_value">
+                                                <span>Мобільний: </span>
+                                                <field name="mobile"/>
+                                            </div>
+
+                                            <div t-if="record.email.raw_value">
+                                                <span>Email: </span>
+                                                <field name="email"/>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </t>
                             </templates>
 
                         </kanban>
+
                     </field>
 
                 </page>
