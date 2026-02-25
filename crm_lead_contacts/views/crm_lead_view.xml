@@ -12,7 +12,7 @@
                 <page string="Contacts">
 
                     <field name="contact_ids"
-                           mode="kanban,form"
+                           mode="kanban"
                            context="{
                                'default_parent_id': partner_id,
                                'default_company_type': 'person',
@@ -21,6 +21,7 @@
                            }">
 
                         <kanban>
+
                             <field name="name"/>
                             <field name="function"/>
                             <field name="phone"/>
@@ -63,29 +64,8 @@
                                     </div>
                                 </t>
                             </templates>
+
                         </kanban>
-
-                        <form string="Contact / Address">
-                            <sheet>
-                                <field name="type" required="1" widget="radio"
-                                       options="{'horizontal': true}"/>
-                                <field name="parent_id" invisible="1"/>
-
-                                <group>
-                                    <group>
-                                        <field name="name" string="Contact Name"
-                                               required="type == 'contact'"/>
-                                        <field name="function"
-                                               invisible="type != 'contact'"/>
-                                    </group>
-                                    <group>
-                                        <field name="email" widget="email"/>
-                                        <field name="phone" widget="phone"/>
-                                        <field name="mobile" widget="phone"/>
-                                    </group>
-                                </group>
-                            </sheet>
-                        </form>
 
                     </field>
 
