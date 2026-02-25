@@ -21,7 +21,6 @@
                            }">
 
                         <kanban>
-
                             <field name="name"/>
                             <field name="function"/>
                             <field name="phone"/>
@@ -64,7 +63,6 @@
                                     </div>
                                 </t>
                             </templates>
-
                         </kanban>
 
                         <form string="Contact / Address">
