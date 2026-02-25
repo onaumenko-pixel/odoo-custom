@@ -13,7 +13,6 @@ class CrmLead(models.Model):
 
     def action_add_company_contact(self):
         self.ensure_one()
-
         if not self.partner_id:
             return False
 
